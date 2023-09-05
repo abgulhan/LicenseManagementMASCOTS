@@ -1,0 +1,229 @@
+Feature                         Version     #licenses    Vendor        Expires
+
+_______                         _________   _________    ______        ________
+
+SERIAL                          3.5          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          3.5          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          4.1          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          4.1          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          5.2          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          5.2          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          5.5          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          6.1          0           LMCOMSOL      permanent(no expiration date)
+
+SERIAL                          6.1          0           LMCOMSOL      permanent(no expiration date)
+
+ACDC                            3.5          30          LMCOMSOL      permanent(no expiration date)
+
+ACDC                            6.1          5           LMCOMSOL      permanent(no expiration date)
+
+ACDCBATCH                       6.1          5           LMCOMSOL      permanent(no expiration date)
+
+ACOUSTICS                       6.1          2           LMCOMSOL      permanent(no expiration date)
+
+ACOUSTICSBATCH                  6.1          2           LMCOMSOL      permanent(no expiration date)
+
+BATTERYDESIGN                   6.1          1           LMCOMSOL      permanent(no expiration date)
+
+BATTERYDESIGNBATCH              6.1          1           LMCOMSOL      permanent(no expiration date)
+
+CADIMPORT                       3.5          30          LMCOMSOL      permanent(no expiration date)
+
+CADIMPORT                       4.1          2           LMCOMSOL      permanent(no expiration date)
+
+CADIMPORT                       6.1          5           LMCOMSOL      permanent(no expiration date)
+
+CADIMPORTBATCH                  6.1          5           LMCOMSOL      permanent(no expiration date)
+
+CFD                             6.1          8           LMCOMSOL      permanent(no expiration date)
+
+CFDBATCH                        6.1          8           LMCOMSOL      permanent(no expiration date)
+
+CHEM                            3.5          30          LMCOMSOL      permanent(no expiration date)
+
+CHEM                            6.1          1           LMCOMSOL      permanent(no expiration date)
+
+CHEMBATCH                       6.1          1           LMCOMSOL      permanent(no expiration date)
+
+COMSOL                          3.5          30          LMCOMSOL      permanent(no expiration date)
+
+COMSOL                          6.1          21          LMCOMSOL      permanent(no expiration date)
+
+COMSOLBATCH                     6.1          21          LMCOMSOL      permanent(no expiration date)
+
+CORROSION                       6.1          4           LMCOMSOL      permanent(no expiration date)
+
+CORROSIONBATCH                  6.1          4           LMCOMSOL      permanent(no expiration date)
+
+ECADIMPORT                      6.1          1           LMCOMSOL      permanent(no expiration date)
+
+ECADIMPORTBATCH                 6.1          1           LMCOMSOL      permanent(no expiration date)
+
+GEOMECHANICS                    6.1          1           LMCOMSOL      permanent(no expiration date)
+
+GEOMECHANICSBATCH               6.1          1           LMCOMSOL      permanent(no expiration date)
+
+HEATTRANSFER                    6.1          5           LMCOMSOL      permanent(no expiration date)
+
+HEATTRANSFERBATCH               6.1          5           LMCOMSOL      permanent(no expiration date)
+
+LLEXCEL                         6.1          1           LMCOMSOL      permanent(no expiration date)
+
+LLEXCELBATCH                    6.1          1           LMCOMSOL      permanent(no expiration date)
+
+LLMATLAB                        6.1          2           LMCOMSOL      permanent(no expiration date)
+
+LLMATLABBATCH                   6.1          2           LMCOMSOL      permanent(no expiration date)
+
+LLSOLIDWORKS                    6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MEMS                            6.1          5           LMCOMSOL      permanent(no expiration date)
+
+MEMSBATCH                       6.1          5           LMCOMSOL      permanent(no expiration date)
+
+MICROFLUIDICS                   6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MICROFLUIDICSBATCH              6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MOLECULARFLOW                   6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MOLECULARFLOWBATCH              6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MULTIBODYDYNAMICS               6.1          1           LMCOMSOL      permanent(no expiration date)
+
+MULTIBODYDYNAMICSBATCH          6.1          1           LMCOMSOL      permanent(no expiration date)
+
+NONLINEARSTRUCTMATERIALS        6.1          8           LMCOMSOL      permanent(no expiration date)
+
+NONLINEARSTRUCTMATERIALSBATCH   6.1          8           LMCOMSOL      permanent(no expiration date)
+
+OPTIMIZATION                    6.1          1           LMCOMSOL      permanent(no expiration date)
+
+OPTIMIZATIONBATCH               6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PARTICLETRACING                 6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PARTICLETRACINGBATCH            6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PIPEFLOW                        6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PIPEFLOWBATCH                   6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PLASMA                          6.1          1           LMCOMSOL      permanent(no expiration date)
+
+PLASMABATCH                     6.1          1           LMCOMSOL      permanent(no expiration date)
+
+RF                              3.5          30          LMCOMSOL      permanent(no expiration date)
+
+RF                              6.1          5           LMCOMSOL      permanent(no expiration date)
+
+RFBATCH                         6.1          5           LMCOMSOL      permanent(no expiration date)
+
+SEMICONDUCTOR                   6.1          2           LMCOMSOL      permanent(no expiration date)
+
+SEMICONDUCTORBATCH              6.1          2           LMCOMSOL      permanent(no expiration date)
+
+STRUCTURALMECHANICS             6.1          8           LMCOMSOL      permanent(no expiration date)
+
+STRUCTURALMECHANICSBATCH        6.1          8           LMCOMSOL      permanent(no expiration date)
+
+SUBSURFACEFLOW                  6.1          1           LMCOMSOL      permanent(no expiration date)
+
+SUBSURFACEFLOWBATCH             6.1          1           LMCOMSOL      permanent(no expiration date)
+
+WAVEOPTICS                      6.1          1           LMCOMSOL      permanent(no expiration date)
+
+WAVEOPTICSBATCH                 6.1          1           LMCOMSOL      permanent(no expiration date)
+
+COMSOLGUI                       3.5          30          LMCOMSOL      permanent(no expiration date)
+
+COMSOLGUI                       6.1          21          LMCOMSOL      permanent(no expiration date)
+
+CLIENTSERVER                    6.1          21          LMCOMSOL      permanent(no expiration date)
+
+CLUSTERNODE                     6.1          21          LMCOMSOL      permanent(no expiration date)
+
+COMSOLUSER                      6.1          21          LMCOMSOL      permanent(no expiration date)
+
+MODELMANAGER                    6.1          21          LMCOMSOL      permanent(no expiration date)
+
+MODELMANAGERBATCH               6.1          21          LMCOMSOL      permanent(no expiration date)
+
+MODELMANAGERSERVER              6.1          21          LMCOMSOL      permanent(no expiration date)
+
+MODELMANAGERSERVERBATCH         6.1          21          LMCOMSOL      permanent(no expiration date)
+
+CADREADER                       3.5          30          LMCOMSOL      permanent(no expiration date)
+
+CADREADER                       4.1          2           LMCOMSOL      permanent(no expiration date)
+
+CADREADER                       6.1          5           LMCOMSOL      permanent(no expiration date)
+
+CADREADERBATCH                  6.1          5           LMCOMSOL      permanent(no expiration date)
+
+CADIMPORTUSER                   6.1          5           LMCOMSOL      permanent(no expiration date)
+
+BATTERIESANDFUELCELLS           5.5          1           LMCOMSOL      permanent(no expiration date)
+
+BATTERIESANDFUELCELLSBATCH      5.5          1           LMCOMSOL      permanent(no expiration date)
+
+LLINVENTOR                      4.1          1           LMCOMSOL      permanent(no expiration date)
+
+LLProE                          4.1          1           LMCOMSOL      permanent(no expiration date)
+
+ACO                             4.1          2           LMCOMSOL      permanent(no expiration date)
+
+HT                              3.5          30          LMCOMSOL      permanent(no expiration date)
+
+HT                              4.1          5           LMCOMSOL      permanent(no expiration date)
+
+LLSW                            4.1          1           LMCOMSOL      permanent(no expiration date)
+
+OPTLAB                          4.1          1           LMCOMSOL      permanent(no expiration date)
+
+SME                             3.5          30          LMCOMSOL      permanent(no expiration date)
+
+SME                             4.1          8           LMCOMSOL      permanent(no expiration date)
+
+ES                              4.1          1           LMCOMSOL      permanent(no expiration date)
+
+ACDCCKL                         6.1          30          LMCOMSOL      permanent(no expiration date)
+
+CFDCKL                          6.1          30          LMCOMSOL      permanent(no expiration date)
+
+CHEMCKL                         6.1          30          LMCOMSOL      permanent(no expiration date)
+
+COMSOLCKL                       6.1          30          LMCOMSOL      permanent(no expiration date)
+
+GEOMECHANICSCKL                 6.1          30          LMCOMSOL      permanent(no expiration date)
+
+HEATTRANSFERCKL                 6.1          30          LMCOMSOL      permanent(no expiration date)
+
+LLEXCELCKL                      6.1          30          LMCOMSOL      permanent(no expiration date)
+
+LLMATLABCKL                     6.1          30          LMCOMSOL      permanent(no expiration date)
+
+RFCKL                           6.1          30          LMCOMSOL      permanent(no expiration date)
+
+STRUCTURALMECHANICSCKL          6.1          30          LMCOMSOL      permanent(no expiration date)
+
+COMSOLGUICKL                    6.1          30          LMCOMSOL      permanent(no expiration date)
+
+CADIMPORTCKL                    4.1          60          LMCOMSOL      permanent(no expiration date)
+
+LLINVENTORCKL                   4.1          30          LMCOMSOL      permanent(no expiration date)
+
+LLProECKL                       4.1          30          LMCOMSOL      permanent(no expiration date)
+
+HTCKL                           4.1          30          LMCOMSOL      permanent(no expiration date)
+
+SMECKL                          4.1          30          LMCOMSOL      permanent(no expiration date)
+
+CADREADERCKL                    4.1          60          LMCOMSOL      permanent(no expiration date)
