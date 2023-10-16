@@ -9,7 +9,19 @@ import sys
 import utils
 from typing import List
 import random
+import argparse
 
+ 
+def arg_parse():
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('--processed_license_log', type=str, default='', help='Location of the processed license log file')
+    parser.add_argument('--accounting_log_dir', type=str, default='', help='Location of accounting logs')
+    parser.add_argument('--output_file', type=str, default='', help='Where to save simulator data')
+    parser.add_argument('--max_job_time', type=int, default=48+6, help='Maximum time of executing jobs in hours. Should add a small time delta to deal with logging delays.')
+    parser.add_argument('--start_date', type=str, default='', help='Start date to generate data. Format: yyyy-mm-dd')
+    parser.add_argument('--end_date', type=str, default='', help='End date to generate data. Format: yyyy-mm-dd')
+    return parser.parse_args()
 
 '''
     Generate file location of accounting log file
@@ -783,24 +795,19 @@ def generate_jobs(unmatched_licenses: list, output_file: str, max_job_exec_time:
         
 #%%
 if __name__ == '__main__':
-    # TODO add arg parsing
-    
+     
     #run_job_matching()
     
-    arg_start_date = "2017-10-01"
-    arg_end_date = "2017-11-03"
-    license_log_fname = "./data/comsol2015_old_method.csv"
-    accounting_log_directory = "D:/logs/accounting"
+    args = arg_parse()  
+    
+    arg_start_date = args.start_date #"2017-10-01"
+    arg_end_date = args.end_date #"2017-11-03"
+    license_log_fname = args.processed_license_log #"./data/comsol2015_old_method.csv"
+    accounting_log_directory = args.accounting_log_dir #"D:/logs/accounting"
     start_date = utils.parse_date(arg_start_date) 
     end_date = utils.parse_date(arg_end_date)
-    output_file = f"./processed/simulator/comsol2015_jobs_{arg_start_date}-{arg_end_date}.csv"
-
-    #start_date = utils.parse_date("2020-01-01") 
-    #start_date = utils.parse_date("2019-08-15") 
-    #start_date = utils.parse_date("2020-01-29") 
-
-    #end_date = utils.parse_date("2019-08-31")
-    max_job_exec_time = datetime.timedelta(hours=48) + datetime.timedelta(hours=6)
+    output_file = args.output_file #f"./processed/simulator/comsol2015_jobs_{arg_start_date}-{arg_end_date}.csv"
+    max_job_exec_time = args.max_job_time #datetime.timedelta(hours=48) + datetime.timedelta(hours=6)
 
     #%%
     # get all valid job intervals (i.e jobs that start and end within this time period)
