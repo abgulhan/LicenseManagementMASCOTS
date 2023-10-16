@@ -45,6 +45,7 @@ def parse_max_licenses(fname, license_type = 'comsol', multiple_license_versions
     if license_type.lower() == 'comsol' or license_type.lower() == 'matlab':
         with open(fname, 'r') as f:
             license_max = {}
+            license_version = {}
             f.readline()
             f.readline()
             f.readline()
@@ -61,6 +62,8 @@ def parse_max_licenses(fname, license_type = 'comsol', multiple_license_versions
                     max_amount = 9999
                 if license_max.get(name) == None:
                     license_max[name] = max_amount
+                    if multiple_license_versions_behavior == 'max_version':
+                        license_version[name] = version
                 else:
                     if multiple_license_versions_behavior == 'add':
                         license_max[name] += max_amount
@@ -68,6 +71,13 @@ def parse_max_licenses(fname, license_type = 'comsol', multiple_license_versions
                         license_max[name] = max(max_amount, license_max[name])
                     if multiple_license_versions_behavior == 'min':
                         license_max[name] = min(max_amount, license_max[name])
+                    if multiple_license_versions_behavior == 'max_version':
+                        if version >= license_version[name]:
+                            if version == license_version[name]:
+                                license_max[name] = max(max_amount, license_max[name])
+                            else:
+                                license_max[name] = max_amount
+                            license_version[name] = version
         return license_max
     elif license_type.lower() == 'ansys':
         license_max = {}

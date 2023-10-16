@@ -11,7 +11,7 @@ monthToInt = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul':
 global_date = 0 
 
 class License:
-    def __init__(self, log_name, name, ignore_pid = False, ignore_numLicense = False):
+    def __init__(self, log_name, name, ignore_pid = False, ignore_numLicense = False, start_date = None, end_date = None):
         self._log_name = log_name
         self._date = None
         #self._checkOuts = defaultdict(list)
@@ -29,12 +29,19 @@ class License:
         self._ignore_numLicense = ignore_numLicense
         self._denied = defaultdict(list) # dictionary, key:feature name, value:(dateTime)
         self._restarts = [] # List of datetime.datetime
+        self._start_date: pd.Timestamp = start_date
+        self._end_date: pd.Timestamp = end_date
     
     '''
     Add data to some data structures.
     parse_types is used to ignore some data structures for faster processing
     '''
     def _add_data(self, type, data, parse_types = ["linegraph"]):
+        date = data[0].date()
+        if self._start_date is not None and date < self._start_date:
+            return
+        if self._end_date is not None and date > self._end_date:
+            return
         if type == "OUT" or type == "IN":
             dateTime, uniqueId = data
             feature, user, pid, numLicense = uniqueId
@@ -55,6 +62,7 @@ class License:
                 ###self._lineGraphData = pd.concat([self._lineGraphData, pd.DataFrame([new_row]).set_index("dateTime")], axis=0, ignore_index=False)
                 # TODO THIS IS VERY SLOW FIX THIS
                 self._lineGraphData = pd.concat([self._lineGraphData, pd.DataFrame([new_row])], axis=0, ignore_index=True)
+                #self._lineGraphData.append(new_row)
         elif type == "DENIED":
             dateTime, feature, user = data
             assert('@' in user)
@@ -84,6 +92,11 @@ class License:
     parse_types used to determine what types of data structures to update or skip (currently only linegraph)
     '''
     def _parse_line(self, line_, parse_types = ["linegraph"]):
+        # check date, ignore if none (first date was not read yet):
+        if self._date is not None:
+            if self._end_date is not None and self._date > self._end_date:
+                return False
+        
         line = line_.strip().split()
 
         if len(line) < 4: # check if line is empty
@@ -178,7 +191,8 @@ class License:
         elif line[2].lower() == "started" or line[2].lower() == "restarted":
             timeStamp = datetime.time(*[int(x) for x in line[0].split(':')])
             dateTime = datetime.datetime.combine(self._date, timeStamp)
-            self._restarts.append(dateTime)
+            if (self._start_date is None or self._date >= self._start_date) and (self._end_date is None or self._date <= self._end_date):  
+                self._restarts.append(dateTime)
         else:
             return False
         return True
@@ -808,14 +822,16 @@ class License:
     Used for plotting line graph of how much features used at a given time
     '''
     def get_line_graph(self, type = 'seaborn'):
-        print(self._lineGraphData)
-        print(self._lineGraphData.index.name)
+        data = pd.concat([self._lineGraphData], axis=0, ignore_index=True)
+
+        print(data)
+        print(data)
         print("updating index. Why does this take so long??")
         #self._lineGraphData = self._lineGraphData.set_index("dateTime") # why does this take so long?
         #self._lineGraphData = self._lineGraphData.reset_index(drop=True)
 
         if type == "seaborn":
-            ax = sns.lineplot(self._lineGraphData)
+            ax = sns.lineplot(data)
             ax.set_ylabel('Number of checked out licenses')
             ax.set_xlabel('time')
             #ax.set_xticklabels([datetime.fromtimestamp(tm) for tm in ax.get_xticks()], rotation=50)
@@ -824,9 +840,9 @@ class License:
             plt.savefig('./plots/'+self._name+'_license_line_plot.png')
             plt.show()
         else:
-            print(self._lineGraphData)
-            self._lineGraphData = self._lineGraphData.set_index("dateTime")
-            fig = px.line(self._lineGraphData, title=f"{self._name} License Check Outs",  template="seaborn",
+            print(data)
+            data = data.set_index("dateTime")
+            fig = px.line(data, title=f"{self._name} License Check Outs",  template="seaborn",
                     labels = {
                         "value" : "Number of Check-outs"
                     })
@@ -871,36 +887,42 @@ class License:
 if __name__ == "__main__":  
     
     #print(f"current directory: {os.getcwd()}")
-    log_name = "D:\logs\lm\comsol.log"#"D:\logs\lm\matlab\matlab.log_deidentified"#"./logs/starccm.log" #    
-    name = "comsol" # should not contain spaces
+    log_name = "D:\logs\lm\comsol\comsol60.log_deidentified"#"D:\logs\lm\matlab\matlab.log_deidentified"#"./logs/starccm.log" #    
+    name = "comsol_new_jan" # should not contain spaces
     my_license = License(log_name, name, ignore_pid=False, ignore_numLicense=False)
     #%%
     # using linegraph is VERY slow TODO fix this
     my_license.parse_file(parse_types = []) #parse_types = ["linegraph"]
     #%%
-    #skipped_keys = my_license.parse_pairs_old(maxPass=100)
-    skipped_keys = my_license.parse_pairs(split_distance=datetime.timedelta(days=7), includeAllIntervals=False)
+    skipped_keys = my_license.parse_pairs_old(maxPass=100)
+    #skipped_keys = my_license.parse_pairs(split_distance=datetime.timedelta(days=7), includeAllIntervals=False)
     #%%
     my_license._parse_remaining_pairs(skipped_keys)
     #%%
-    my_license.save_to_file(f"./data/test_{name}.csv", 'pair')
-    #my_license.save_to_file(f"./data/{name}_denied.csv", 'denied')
+    my_license.save_to_file(f"./data/{name}.csv", 'pair')
+    my_license.save_to_file(f"./data/{name}_denied.csv", 'denied')
     #%%
     # WARNING: drawing plots is very slow
     my_license.get_interarrival_times(plot="box_nostrip", font_size=28)
     #my_license.get_interarrival_times(plot="box", font_size=28)
     #my_license.get_line_graph(type="seaborn")
     #%%
-    """
-    font_size = 28
+    
+    font_size = 22#28
     width = 10*2
     height = 6*2
     data = []
     means = []
     features = [feature for feature in my_license._intervals]
     x_pos = np.arange(len(features))
+    
+    remove_outliers = True
+    max_time = 175000
+    
     for feature in features:
         feature_times = np.array([time[0] for time in my_license._intervals[feature]])
+        if remove_outliers:
+            feature_times[feature_times > max_time] = max_time
         data.append(feature_times)
         means.append(np.mean(feature_times))
 
@@ -927,17 +949,18 @@ if __name__ == "__main__":
     plt.rcParams["figure.figsize"]=(width, height)
     if font_size != None:
         plt.rcParams['font.size'] = font_size
+
     ax = sns.boxplot(data=data, showfliers = False)
     ax = sns.stripplot(data=data, edgecolor="black", marker="o", linewidth=1, jitter=0.3, alpha=0.5, s=5)
 
     ax.set_xticklabels(features)
-    ax.set_ylabel('mean license use time (s)')
+    ax.set_ylabel('license use time (s)')
     if my_license._name != None and my_license._name != '':
         ax.set_title(f'{my_license._name} License Feature Use Interval Times')
     plt.setp(ax.get_xticklabels(), rotation=60, horizontalalignment='right')
     if font_size != None:
         plt.rcParams['font.size'] = font_size
     plt.rcParams["figure.figsize"]=(width, height)
-    plt.savefig('2month'+'_license_box_plot_.pdf', format="pdf", bbox_inches='tight')
-    """
+    plt.savefig(name+'_license_box_plot_.pdf', format="pdf", bbox_inches='tight')
+    
 # %%

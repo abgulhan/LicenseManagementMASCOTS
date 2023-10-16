@@ -58,6 +58,7 @@ def arg_parse():
     parser.add_argument('--get_license_usage_statistics', type=str2bool, default='False', help='Find average license utilization')
     parser.add_argument('--duration_file', type=str, default='./data/comsol2015.csv', help='License duration log file name')
     parser.add_argument('--forecast_file', type=str, default='./processed/combined/combined_1day.csv', help='License forecast data file name')
+    parser.add_argument('--denial_file', type=str, default=None , help='License denials data file name')
     parser.add_argument('--max_license_file', type=str, default=None, help='Maximum license count file. Output of lmstat')
     parser.add_argument('--max_license_file_type', type=str, default=None, help='Type of max_license_file. Different licenses may have differnt formats')
     parser.add_argument('--skipped_duration', type=int, default=0, help='Length of time period to ignore in statistics calculations. Format: seconds')
@@ -468,7 +469,7 @@ Get usage statistics for each license in the license duration file
 license_interval_fname: name of license interval file - output of log_parse.py
 license_forecasr_fname: Optional, used for peak usage. Name of license forecast data - output of process.py
 '''    
-def get_license_usage_statistics(license_interval_fname, license_forecast_fname = None, max_licenses = None, skipped_time = datetime.timedelta(0)):
+def get_license_usage_statistics(license_interval_fname, license_forecast_fname = None, license_denial_fname = None, max_licenses = None, skipped_time = datetime.timedelta(0)):
     log_data = pd.read_csv(license_interval_fname, header=0, parse_dates=['check_in', 'check_out'])
     feature_names = log_data['feature_names'].unique()
     total_time: datetime.timedelta = log_data['check_in'].max() - log_data['check_out'].min()
@@ -477,6 +478,9 @@ def get_license_usage_statistics(license_interval_fname, license_forecast_fname 
 
     if license_forecast_fname != None:
         forecast_data = pd.read_csv(license_forecast_fname, index_col=0)
+    if license_denial_fname != None:
+        denial_data = pd.read_csv(license_denial_fname)
+        print(denial_data)
     stats = {}
     for feature in feature_names:
         stats[feature] = {}
@@ -493,15 +497,27 @@ def get_license_usage_statistics(license_interval_fname, license_forecast_fname 
             except:
                 peak_use = 0
             stats[feature]['peak_use'] = peak_use
+            unique_users = int(log_data[log_data['feature_names'] == feature]['user_name'].nunique())
+            stats[feature]['unique_users'] = unique_users
+        if license_denial_fname != None:
+            stats[feature]['total_denials'] = len(denial_data[denial_data['feature_names'] == feature])
+            stats[feature]['unique_denials'] = denial_data[denial_data['feature_names'] == feature]['user_name'].nunique()
         
     # add any licenses that appear in max_licenses file, but not in logs
     # TODO make this work without max_licenses (license file)
-    for feature in max_licenses.keys():
+    if max_licenses != None:
+        feature_list = max_licenses.keys()
+    else:
+        feature_list = [] #TODO
+    for feature in feature_list:
         if stats.get(feature) == None:
            stats[feature] = {}
            stats[feature]['avg_usage'] = 0
            stats[feature]['utilization'] = 0
            stats[feature]['peak_use'] = 0
+           stats[feature]['unique_users'] = 0
+           stats[feature]['total_denials'] = 0
+           stats[feature]['unique_denials'] = 0
             
     # sort license features by utilization
     stats = dict(sorted(stats.items(), key=lambda item: item[1]['utilization'], reverse=True))
@@ -510,14 +526,25 @@ def get_license_usage_statistics(license_interval_fname, license_forecast_fname 
         name = key
         avg_usage = value['avg_usage']
         utilization = value.get('utilization')
-        peak_use = value.get('peak_use')
-        print(f"{name:<20}:", end='')
+        
+        print(f"{name:<21}:", end='')
         if max_licenses != None:
-            print(f" utilization {utilization*100:.3f}%;", end='')
-        print(f" avg. use {avg_usage:.3f};", end='')
+            print(f" util. {utilization*100:<6.3f}%;", end='')
+        print(f" avg. use {avg_usage:<6.3f};", end='')
         if license_forecast_fname != None:
-            print(f" peak use {peak_use};", end='')
-        print(f" purchased licenses {max_licenses[name]}")
+            peak_use = value.get('peak_use')
+            unique_users = value.get('unique_users')
+            print(f" peak use {peak_use:<2};", end='')
+            print(f" unq usr {unique_users:<3};", end='')
+
+        print(f" total licenses {max_licenses[name]:<2};", end='')
+        
+        if license_denial_fname != None:
+            total_denials = value.get('total_denials')
+            unique_denials = value.get('unique_denials')
+            print(f" denials {total_denials:<4};", end='')
+            print(f" unq denial {unique_denials:<2}", end='')
+        print()
 
 def get_license_peak_statistics(log_fname, num_days=1642, spacing = 'day'):
     data = pd.read_csv(log_fname, index_col=0, parse_dates=[0])
@@ -568,14 +595,15 @@ if __name__ == '__main__':
         duration_file = args.duration_file
         forecast_file = args.forecast_file
         max_license_file = args.max_license_file
+        denial_file = args.denial_file
         max_licenses = None
         if max_license_file != None:
             import utils
             max_license_file_type = args.max_license_file_type 
-            max_licenses = utils.parse_max_licenses(max_license_file, license_type=max_license_file_type, multiple_license_versions_behavior='max') #TODO auto type detect
+            max_licenses = utils.parse_max_licenses(max_license_file, license_type=max_license_file_type, multiple_license_versions_behavior='max_version') #TODO auto type detect
             print(max_licenses)
         skipped_duration =  args.skipped_duration
-        get_license_usage_statistics(duration_file, forecast_file, max_licenses=max_licenses, skipped_time=skipped_duration)
+        get_license_usage_statistics(duration_file, forecast_file, denial_file, max_licenses=max_licenses, skipped_time=skipped_duration)
     
     if args.process_high_denial_unique:
         w = args.process_high_denial_window
