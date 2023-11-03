@@ -9,7 +9,7 @@ License and Accounting logs: [LINK](https://pennstateoffice365-my.sharepoint.com
 ### Processing License Logs
 Run the following command:
 
-python stat_pipeline.py --log_file [location of downloaded license data]/comsol.log_deidentified --name COMSOL --max_license_file ./max_licenses/comsol_max_licenses.txt --start [optional yyyy-mm-dd] --end [optional yyyy-mm-dd] --show_statistics False
+python data_pipeline.py --log_file [location of downloaded license data]/comsol.log_deidentified --name COMSOL --max_license_file ./max_licenses/comsol_max_licenses.txt --start [optional yyyy-mm-dd] --end [optional yyyy-mm-dd] --show_statistics False
 **Outputs** 
 
 *Processed license log file*: ./data/[name].csv
